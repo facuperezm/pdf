@@ -28,6 +28,7 @@ export const AuthConfig = {
     },
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
+      // Protected routes
       const paths = ["/dashboard", "/create"];
       const isProtected = paths.some((path) =>
         nextUrl.pathname.startsWith(path)
