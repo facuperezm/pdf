@@ -28,7 +28,7 @@ export default function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: "" },
   });
 
   function onSubmit(data: z.infer<typeof LoginSchema>) {
@@ -71,24 +71,6 @@ export default function LoginForm() {
                       {...field}
                       type="email"
                       placeholder="johndoe@email.com"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      placeholder="*******"
                       disabled={isPending}
                     />
                   </FormControl>

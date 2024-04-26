@@ -28,7 +28,7 @@ export default function RegisterForm() {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: "", name: "" },
   });
 
   function onSubmit(data: z.infer<typeof RegisterSchema>) {
@@ -89,24 +89,6 @@ export default function RegisterForm() {
                       {...field}
                       type="email"
                       placeholder="johndoe@email.com"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      placeholder="*******"
                       disabled={isPending}
                     />
                   </FormControl>
