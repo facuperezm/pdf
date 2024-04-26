@@ -1,7 +1,27 @@
 import { auth } from "@/auth";
 /**
- * an array of protected routes
- * these routes require authentication
+ * an array of routes that are public
+ * this routes do not require authentication
  * @type {string[]}
  */
-export const protectedRoutes = ["/"];
+
+export const publicRoutes = ["/", "/pricing"];
+
+/**
+ * an array of routes that require authentication
+ * @type {string[]}
+ */
+export const authRoutes = ["/auth/login", "/auth/register"];
+
+/**
+ * api prefix for API authentication routes
+ * Routes that start with this prefix are considered API routes
+ * @type {string}
+ */
+export const apiAuthPrefix = "/api/auth";
+
+/**
+ * Default redirect path after login
+ * @type {string}
+ */
+export const DEFAULT_LOGIN_REDIRECT = "/dashboard";

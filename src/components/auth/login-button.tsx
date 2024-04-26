@@ -16,7 +16,7 @@ export default function LoginButton({
   const router = useRouter();
 
   function onClick() {
-    router.push("/auth/login");
+    router.push("api/auth/signin");
   }
   return (
     <span onClick={onClick} className="cursor-pointer">

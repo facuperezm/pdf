@@ -1,8 +1,8 @@
 import LoginForm from "@/components/auth/login-form";
 
-export default function LoginPage() {
+export default async function SignInPage() {
   return (
-    <div>
+    <div className="flex overflow-hidden relative w-full h-full">
       <LoginForm />
     </div>
   );

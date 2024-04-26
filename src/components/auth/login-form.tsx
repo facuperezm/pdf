@@ -18,14 +18,19 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import FormError from "../form-error";
 import FormSuccess from "../form-success";
-import { login } from "@/actions/login";
 import { useTransition } from "react";
 import React from "react";
+import { signIn } from "@/auth";
+import { useSearchParams } from "next/navigation";
+import { login } from "@/actions/login";
 
 export default function LoginForm() {
   const [error, setError] = React.useState("");
   const [success, setSuccess] = React.useState("");
   const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: { email: "" },
@@ -35,8 +40,8 @@ export default function LoginForm() {
     setError("");
     setSuccess("");
     // Call the login server action
-    startTransition(() => {
-      login(data).then(
+    startTransition(async () => {
+      await login({ email: data.email }, callbackUrl).then(
         () => {
           form.reset();
           setSuccess("Successfully logged in!");
