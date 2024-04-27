@@ -21,8 +21,12 @@ import FormSuccess from "../form-success";
 import { useTransition } from "react";
 import React from "react";
 import { register } from "@/actions/register";
+import { useSearchParams } from "next/navigation";
+import { login } from "@/actions/login";
 
 export default function RegisterForm() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [error, setError] = React.useState("");
   const [success, setSuccess] = React.useState("");
   const [isPending, startTransition] = useTransition();
@@ -36,7 +40,7 @@ export default function RegisterForm() {
     setSuccess("");
     // Call the login server action
     startTransition(() => {
-      register(data).then(
+      login({ email: data.email }, callbackUrl).then(
         () => {
           form.reset();
           setSuccess("Successfully registered");

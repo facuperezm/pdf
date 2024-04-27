@@ -14,5 +14,5 @@ export async function login(
     return { error: "Invalid fields!" };
   }
   await signIn("resend", { email: values.email, callbackUrl });
-  return { success: "Successfully logged in!" };
+  return { success: "Email sent" };
 }

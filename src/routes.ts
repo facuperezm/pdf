@@ -5,7 +5,7 @@ import { auth } from "@/auth";
  * @type {string[]}
  */
 
-export const publicRoutes = ["/", "/pricing"];
+export const publicRoutes = ["/"];
 
 /**
  * an array of routes that require authentication

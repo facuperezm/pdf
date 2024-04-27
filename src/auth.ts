@@ -10,14 +10,38 @@ const providers: Provider[] = [
   Resend({
     apiKey: process.env.AUTH_RESEND_KEY,
     from: "no-reply@facupm.dev",
+    async sendVerificationRequest({
+      identifier: email,
+      url,
+      provider: { server, from },
+    }) {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.AUTH_RESEND_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: "no-reply@facupm.dev",
+          to: email,
+          subject: `Sign in to ${new URL(url).host}`,
+          html: `<p>To sign in perrito, click <a href="${url}">here</a>.</p>`,
+          text: `To sign in, visit ${url}`,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to send verification email");
+    },
   }),
   Google({
-    clientId: process.env.GOOGLE_ID,
-    clientSecret: process.env.GOOGLE_SECRET,
+    clientId: process.env.AUTH_GOOGLE_ID,
+    clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    allowDangerousEmailAccountLinking: true,
   }),
   GitHub({
-    clientId: process.env.GITHUB_ID,
-    clientSecret: process.env.GITHUB_SECRET,
+    clientId: process.env.AUTH_GITHUB_ID,
+    clientSecret: process.env.AUTH_GITHUB_SECRET,
+    allowDangerousEmailAccountLinking: true,
   }),
 ];
 

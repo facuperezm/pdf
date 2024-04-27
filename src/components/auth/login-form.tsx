@@ -20,7 +20,6 @@ import FormError from "../form-error";
 import FormSuccess from "../form-success";
 import { useTransition } from "react";
 import React from "react";
-import { signIn } from "@/auth";
 import { useSearchParams } from "next/navigation";
 import { login } from "@/actions/login";
 
@@ -41,17 +40,7 @@ export default function LoginForm() {
     setSuccess("");
     // Call the login server action
     startTransition(async () => {
-      await login({ email: data.email }, callbackUrl).then(
-        () => {
-          form.reset();
-          setSuccess("Successfully logged in!");
-          setError("");
-        },
-        (error) => {
-          setError(error.message);
-          setSuccess("");
-        }
-      );
+      await login({ email: data.email }, callbackUrl);
     });
   }
 
