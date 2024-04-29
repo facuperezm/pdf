@@ -13,6 +13,8 @@ export async function login(
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };
   }
-  await signIn("resend", { email: values.email, callbackUrl });
+
+  const { email } = validatedFields.data;
+  await signIn("resend", { email, callbackUrl });
   return { success: "Email sent" };
 }
