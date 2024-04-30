@@ -6,7 +6,7 @@ export default async function SignInPage() {
     <div>
       <LoginForm />
       <div>
-        {Object.values(providerMap).map((provider) => (
+        {/* {Object.values(providerMap).map((provider) => (
           <form
             key={provider.id}
             action={async () => {
@@ -20,7 +20,7 @@ export default async function SignInPage() {
               </span>
             </button>
           </form>
-        ))}
+        ))} */}
       </div>
     </div>
   );

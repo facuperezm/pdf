@@ -15,6 +15,12 @@ export async function login(
   }
 
   const { email } = validatedFields.data;
-  await signIn("resend", { email, callbackUrl });
-  return { success: "Email sent" };
+
+  try {
+    await signIn("resend", { email, callbackUrl });
+  } catch (error) {
+    return { error: "Check your email!" };
+  }
+
+  return { success: "Check your email!" };
 }
