@@ -1,14 +1,14 @@
 "use client";
 
-import { signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { MailCheck, Github } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+import { signIn } from "next-auth/react";
 
 export default function Social() {
-  function onClick(provider: "google" | "github") {
-    signIn(provider, {
-      callbackUrl: "/dashboard",
-    });
+  async function onClick(provider: string) {
+    "use server";
+    await signIn(provider);
   }
 
   return (
@@ -17,17 +17,17 @@ export default function Social() {
         size="lg"
         variant="outline"
         className="w-full"
-        onClick={() => onClick("google")}
+        onClick={() => onClick("")}
       >
-        <Github className="size-5" />
+        <FcGoogle className="size-5" />
       </Button>
       <Button
         size="lg"
         variant="outline"
         className="w-full"
-        onClick={() => onClick("github")}
+        onClick={() => onClick("")}
       >
-        <MailCheck className="size-5" />
+        <FaGithub className="size-5" />
       </Button>
     </div>
   );
