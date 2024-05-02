@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 /**
  * an array of routes that are public
  * this routes do not require authentication

@@ -25,7 +25,7 @@ const providers: Provider[] = [
           from: "no-reply@facupm.dev",
           to: email,
           subject: `Sign in to ${new URL(url).host}`,
-          html: `<p>To sign in perrito, click <a href="${url}">here</a>.</p>`,
+          html: `<p>To sign in, click <a href="${url}">here</a>.</p>`,
           text: `To sign in, visit ${url}`,
         }),
       });

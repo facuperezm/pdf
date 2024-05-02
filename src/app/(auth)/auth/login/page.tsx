@@ -1,5 +1,5 @@
 import { providerMap, signIn } from "@/auth";
-import LoginForm from "@/components/auth/login-form";
+import LoginForm from "@/app/(auth)/auth/_components/auth/login-form";
 
 export default async function SignInPage() {
   return (

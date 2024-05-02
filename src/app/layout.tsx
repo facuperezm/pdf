@@ -10,8 +10,8 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "pdf",
-  description: "pdf",
+  title: "PDF reader with AI",
+  description: "Read PDFs with AI",
 };
 
 export default function RootLayout({

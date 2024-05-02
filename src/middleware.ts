@@ -1,10 +1,7 @@
-// export { auth as middleware } from "@/auth";
 import NextAuth from "next-auth";
 
 import { AuthConfig } from "./auth";
 import { authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from "@/routes";
-
-// export default NextAuth(AuthConfig).auth;
 
 const { auth } = NextAuth(AuthConfig);
 
