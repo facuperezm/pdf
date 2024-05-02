@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import LoginButton from "@/app/(auth)/auth/_components/auth/login-button";
+import LoginButton from "@/components/auth/login-button";
 import { Button } from "@/components/ui/button";
 
 export default async function Home() {
