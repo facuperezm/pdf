@@ -13,10 +13,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import * as z from "zod";
-import { Input } from "../../../components/ui/input";
-import { Button } from "../../../components/ui/button";
-import FormError from "../../../components/form-error";
-import FormSuccess from "../../../components/form-success";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import FormError from "@/components/form-error";
+import FormSuccess from "@/components/form-success";
 import { useTransition } from "react";
 import React from "react";
 import { useSearchParams } from "next/navigation";
@@ -41,12 +41,7 @@ export default function LoginForm() {
   }
 
   return (
-    <CardWrapper
-      headerLabel="Welcome Back!"
-      backButtonLabel="Don't have an account?"
-      backButtonHref="/auth/register"
-      showSocial
-    >
+    <CardWrapper headerLabel="Welcome Back!" showSocial>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
