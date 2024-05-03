@@ -1,8 +1,8 @@
 "use client";
-import CardWrapper from "@/components/auth/card-wrapper";
+import CardWrapper from "@/app/(auth)/_components/card-wrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "@/lib/schemas";
+import { LoginSchema } from "@/lib/validations";
 
 import {
   FormLabel,
@@ -13,14 +13,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import * as z from "zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import FormError from "../form-error";
-import FormSuccess from "../form-success";
+import { Input } from "../../../components/ui/input";
+import { Button } from "../../../components/ui/button";
+import FormError from "../../../components/form-error";
+import FormSuccess from "../../../components/form-success";
 import { useTransition } from "react";
 import React from "react";
 import { useSearchParams } from "next/navigation";
-import { login } from "@/actions/login";
+import { login } from "@/lib/actions/login";
 
 export default function LoginForm() {
   const [error, setError] = React.useState("");

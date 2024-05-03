@@ -1,10 +1,13 @@
 "use server";
 
 import { signIn } from "@/auth";
+import { LoginSchema } from "@/lib/validations";
 import * as z from "zod";
-import { LoginSchema } from "@/lib/schemas";
 
-export async function login(values: z.infer<typeof LoginSchema>) {
+export async function login(
+  values: z.infer<typeof LoginSchema>,
+  callbackUrl: string
+) {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -14,7 +17,7 @@ export async function login(values: z.infer<typeof LoginSchema>) {
   const { email } = validatedFields.data;
 
   try {
-    await signIn("resend", { email });
+    await signIn("resend", { email, callbackUrl });
   } catch (error) {
     return { error: "Check your email!" };
   }

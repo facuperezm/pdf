@@ -7,7 +7,6 @@ import { signIn } from "next-auth/react";
 
 export default function Social() {
   async function onClick(provider: string) {
-    "use server";
     await signIn(provider);
   }
 

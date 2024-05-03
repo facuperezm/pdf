@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { Lato as FontSans } from "next/font/google";
-import "./globals.css";
+import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
-
-const fontSans = FontSans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-sans",
-});
+import { fontSans } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "PDF reader with AI",
