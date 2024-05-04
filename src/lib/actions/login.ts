@@ -2,6 +2,7 @@
 
 import { signIn } from "@/auth";
 import { LoginSchema } from "@/lib/validations";
+import { AuthError } from "next-auth";
 import * as z from "zod";
 
 export async function login(
@@ -19,8 +20,9 @@ export async function login(
   try {
     await signIn("resend", { email, callbackUrl });
   } catch (error) {
-    return { error: "Check your email!" };
+    if (error instanceof AuthError) {
+      return { error: "Something went wrong!" };
+    }
   }
-
   return { success: "Check your email!" };
 }

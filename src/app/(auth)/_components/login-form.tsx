@@ -25,6 +25,7 @@ import { login } from "@/lib/actions/login";
 export default function LoginForm() {
   const [error, setError] = React.useState("");
   const [success, setSuccess] = React.useState("");
+
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
@@ -35,8 +36,17 @@ export default function LoginForm() {
   });
 
   function onSubmit(values: z.infer<typeof LoginSchema>) {
+    setError("");
+    setSuccess("");
+
     startTransition(() => {
-      login(values, callbackUrl);
+      login(values, callbackUrl).then((response) => {
+        if ("error" in response) {
+          setError(response.error || "An error occurred");
+        } else {
+          setSuccess(response.success);
+        }
+      });
     });
   }
 
