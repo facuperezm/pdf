@@ -1,3 +1,5 @@
-export default function fileUploader() {
-  return <></>;
+import { useDropzone } from "react-dropzone";
+
+export default function FileUploader() {
+  return <>fileuploader</>;
 }

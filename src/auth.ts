@@ -3,7 +3,7 @@ import NextAuth, { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { db } from "@/db";
+import { db } from "@/server/db";
 import type { Provider } from "next-auth/providers";
 import { sendVerificationRequest } from "@/lib/authSendRequest";
 
