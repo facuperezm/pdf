@@ -5,23 +5,23 @@ import Resend from "next-auth/providers/resend";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/server/db";
 import type { Provider } from "next-auth/providers";
-import { sendVerificationRequest } from "@/lib/authSendRequest";
+// import { sendVerificationRequest } from "@/lib/authSendRequest";
 
 const providers: Provider[] = [
   Resend({
     apiKey: process.env.AUTH_RESEND_KEY,
     from: "no-reply@facupm.dev",
-    sendVerificationRequest({
-      identifier: email,
-      url,
-      provider: { server, from },
-    }) {
-      return sendVerificationRequest({
-        identifier: email,
-        url,
-        provider: { server, from },
-      });
-    },
+    // sendVerificationRequest({
+    //   identifier: email,
+    //   url,
+    //   provider: { server, from },
+    // }) {
+    //   return sendVerificationRequest({
+    //     identifier: email,
+    //     url,
+    //     provider: { server, from },
+    //   });
+    // },
   }),
   Google({
     clientId: process.env.AUTH_GOOGLE_ID,

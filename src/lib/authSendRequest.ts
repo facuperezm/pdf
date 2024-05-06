@@ -1,7 +1,5 @@
-import { Resend } from "resend";
 import { Email } from "@/components/magic-link-email";
-
-const resend = new Resend(process.env.AUTH_RESEND_KEY);
+import { resend } from "./resend";
 
 export async function sendVerificationRequest(params: {
   identifier: string;
