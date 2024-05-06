@@ -16,7 +16,7 @@ export default function Social() {
         size="lg"
         variant="outline"
         className="w-full"
-        onClick={() => onClick("")}
+        onClick={() => onClick("google")}
       >
         <FcGoogle className="size-5" />
       </Button>
@@ -24,7 +24,7 @@ export default function Social() {
         size="lg"
         variant="outline"
         className="w-full"
-        onClick={() => onClick("")}
+        onClick={() => onClick("github")}
       >
         <FaGithub className="size-5" />
       </Button>
