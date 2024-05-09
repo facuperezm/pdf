@@ -1,6 +1,4 @@
-import LoginButton from "@/app/(auth)/_components/login-button";
 import { Shell } from "@/components/shell";
-import { Button } from "@/components/ui/button";
 
 export default async function Home() {
   return (
@@ -17,11 +15,6 @@ export default async function Home() {
         <section>
           <div></div>
         </section>
-        {/* <LoginButton>
-        <Button variant="secondary" size="lg">
-          Sign in
-        </Button>
-      </LoginButton> */}
       </main>
     </Shell>
   );

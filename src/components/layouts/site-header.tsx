@@ -13,10 +13,11 @@ import {
 import LoginButton from "@/app/(auth)/_components/login-button";
 import Link from "next/link";
 import { LayoutDashboard, LogOut } from "lucide-react";
+import MainNav from "./main-nav";
+import MobileNav from "./mobile-nav";
 
 export default async function SiteHeader() {
   const session = await auth();
-  console.log(session);
 
   const initials = `${session?.user.name?.charAt(0) ?? ""} ${
     session?.user.name?.charAt(1) ?? ""
@@ -24,8 +25,8 @@ export default async function SiteHeader() {
   return (
     <header className="w-full">
       <div className="container flex h-16 items-center">
-        {/* <MainNav />
-        <MobileNav /> */}
+        <MainNav />
+        <MobileNav />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
             {session ? (
@@ -44,13 +45,13 @@ export default async function SiteHeader() {
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuContent className="w-max" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">
                         {session?.user.name}
                       </p>
-                      <p className="text-sm leading-none text-muted-foreground">
+                      <p className="text-sm leading-none text-muted-foreground truncate">
                         {session?.user.email}
                       </p>
                     </div>
@@ -60,7 +61,7 @@ export default async function SiteHeader() {
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard">
                         <LayoutDashboard className="size-4 mr-2" aria-hidden />
-                        Panel general
+                        Dashboard
                       </Link>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
