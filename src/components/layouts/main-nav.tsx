@@ -1,13 +1,13 @@
-import { FigmaLogoIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Paperclip } from "lucide-react";
 
 export default function MainNav() {
   return (
     <div className="hidden lg:flex lg:w-full ">
       <Link href="/" className="flex items-center space-x-2">
-        <FigmaLogoIcon className="size-6" />
+        <Paperclip className="size-6" />
         <span className="text-lg font-bold inline-block">pdf-ai</span>
         <span className="sr-only">Home</span>
       </Link>

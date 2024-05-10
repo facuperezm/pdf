@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "../ui/button";
-import { FigmaLogoIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { ScrollArea } from "../ui/scroll-area";
-import { Separator } from "../ui/separator";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Paperclip } from "lucide-react";
 
 export default function MobileNav() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -18,7 +18,7 @@ export default function MobileNav() {
           variant="ghost"
           className="mr-2 gap-2 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
         >
-          <FigmaLogoIcon className="size-6" aria-hidden />
+          <Paperclip className="size-6" aria-hidden />
         </Button>
       </SheetTrigger>
       <SheetContent className="pl-1 pr-0" side="left">

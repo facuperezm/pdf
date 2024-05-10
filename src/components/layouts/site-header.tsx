@@ -19,9 +19,10 @@ import MobileNav from "./mobile-nav";
 export default async function SiteHeader() {
   const session = await auth();
 
-  const initials = `${session?.user.name?.charAt(0) ?? ""} ${
-    session?.user.name?.charAt(1) ?? ""
+  const initials = `${session?.user.name?.charAt(0) ?? "A"} ${
+    session?.user.name?.charAt(1) ?? "I"
   }`;
+
   return (
     <header className="w-full">
       <div className="container flex h-16 items-center">
@@ -37,10 +38,10 @@ export default async function SiteHeader() {
                     className="relative size-8 rounded-full"
                   >
                     <Avatar className="size-8">
-                      <AvatarImage
-                        src={session?.user.image as string}
+                      {/* <AvatarImage
+                        src={session?.user.image ?? ""}
                         alt={session?.user.name ?? "undentified user"}
-                      />
+                      /> */}
                       <AvatarFallback>{initials}</AvatarFallback>
                     </Avatar>
                   </Button>
@@ -75,7 +76,7 @@ export default async function SiteHeader() {
                     >
                       <button type="submit" className="flex items-center">
                         <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
-                        Cerrar sesión
+                        Logout{" "}
                       </button>
                     </form>
                   </DropdownMenuItem>
@@ -83,8 +84,8 @@ export default async function SiteHeader() {
               </DropdownMenu>
             ) : (
               <LoginButton>
-                <Button variant="secondary" size="lg">
-                  Sign in
+                <Button variant="outline" size="sm">
+                  Log in
                 </Button>
               </LoginButton>
             )}
