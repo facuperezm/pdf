@@ -1,9 +1,22 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
 import { CloudUpload } from "lucide-react";
 import Dropzone from "react-dropzone";
 
 export default function FileUploader() {
+  const { mutate } = useMutation({
+    mutationFn: async () => {
+      const response = await fetch("/api/create-chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: "chat" }),
+      });
+    },
+  });
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     console.log(e.target);
