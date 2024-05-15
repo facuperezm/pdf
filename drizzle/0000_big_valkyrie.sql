@@ -1,3 +1,12 @@
+CREATE TABLE `media` (
+	`id` text PRIMARY KEY NOT NULL,
+	`type` text NOT NULL,
+	`url` text NOT NULL,
+	`userId` text NOT NULL,
+	`timestamp` text DEFAULT (CURRENT_TIMESTAMP),
+	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
 CREATE TABLE `account` (
 	`userId` text NOT NULL,
 	`type` text NOT NULL,

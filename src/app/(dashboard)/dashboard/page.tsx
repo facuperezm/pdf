@@ -26,6 +26,7 @@ export default function DashboardPage() {
             <Button variant="outline">Upload File</Button>
           </DialogTrigger>
           <DialogContent>
+            <h2 className="text-lg font-semibold">Upload File</h2>
             <FileUploader />
           </DialogContent>
         </Dialog>

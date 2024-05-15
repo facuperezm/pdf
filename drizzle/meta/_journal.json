@@ -1,12 +1,12 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1714671245550,
-      "tag": "0000_warm_bloodscream",
+      "version": "6",
+      "when": 1715796126449,
+      "tag": "0000_big_valkyrie",
       "breakpoints": true
     }
   ]

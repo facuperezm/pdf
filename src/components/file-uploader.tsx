@@ -1,33 +1,84 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
-import { CloudUpload } from "lucide-react";
 import Dropzone from "react-dropzone";
+import { Button } from "./ui/button";
+import { getSignedURL } from "@/lib/actions/fileupload";
+import { useState } from "react";
 
 export default function FileUploader() {
-  const { mutate } = useMutation({
-    mutationFn: async () => {
-      const response = await fetch("/api/create-chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name: "chat" }),
-      });
-    },
-  });
+  const [file, setFile] = useState<File | null>(null);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const computeSHA256 = async (file: File) => {
+    const buffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return hashHex;
+  };
+
+  const handleFileUpload = async (file: File) => {
+    const signedURLResult = await getSignedURL({
+      fileSize: file.size,
+      fileType: file.type,
+      checksum: await computeSHA256(file),
+    });
+    if (signedURLResult.failure !== undefined) {
+      throw new Error(signedURLResult.failure);
+    }
+    const { url, id: fileId } = signedURLResult.success;
+    await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": file.type,
+      },
+      body: file,
+    });
+
+    const fileUrl = url.split("?")[0];
+    return fileId;
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    setFile(file);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e.target);
-  }
+    try {
+      let fileId: number | undefined = undefined;
+      if (file) {
+        fileId = await handleFileUpload(file);
+      }
+
+      // await uploadPdf({ fileId });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Dropzone
+    <>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <input
+            name="media"
+            type="file"
+            accept="application/pdf"
+            onChange={handleFileChange}
+          />
+          <Button type="submit">Upload</Button>
+        </form>
+      </div>
+      {/* <Dropzone
         multiple={false}
-        onDrop={async (acceptedFiles) => {
-          console.log(acceptedFiles);
+        onDrop={(acceptedFiles) => {
+          if (acceptedFiles.length > 0) {
+            setFile(acceptedFiles[0]);
+          }
+          handleSubmit();
         }}
       >
         {({ getRootProps, getInputProps }) => (
@@ -53,7 +104,7 @@ export default function FileUploader() {
             </div>
           </div>
         )}
-      </Dropzone>
-    </form>
+      </Dropzone> */}
+    </>
   );
 }
