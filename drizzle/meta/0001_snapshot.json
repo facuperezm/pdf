@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "946c33b7-1740-4181-a9cb-2ac07a8e44d2",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "ad9641a4-5772-469f-87db-f0beaaf8fb81",
+  "prevId": "946c33b7-1740-4181-a9cb-2ac07a8e44d2",
   "tables": {
     "media": {
       "name": "media",
@@ -151,15 +151,7 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "Account_userId_index": {
-          "name": "Account_userId_index",
-          "columns": [
-            "userId"
-          ],
-          "isUnique": false
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
         "account_userId_user_id_fk": {
           "name": "account_userId_user_id_fk",
@@ -189,17 +181,10 @@
     "session": {
       "name": "session",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
         "sessionToken": {
           "name": "sessionToken",
           "type": "text",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
@@ -218,22 +203,7 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "session_sessionToken_unique": {
-          "name": "session_sessionToken_unique",
-          "columns": [
-            "sessionToken"
-          ],
-          "isUnique": true
-        },
-        "Session_userId_index": {
-          "name": "Session_userId_index",
-          "columns": [
-            "userId"
-          ],
-          "isUnique": false
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
         "session_userId_user_id_fk": {
           "name": "session_userId_user_id_fk",
@@ -291,15 +261,7 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "user_email_unique": {
-          "name": "user_email_unique",
-          "columns": [
-            "email"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}

@@ -4,10 +4,12 @@ import Dropzone from "react-dropzone";
 import { Button } from "./ui/button";
 import { getSignedURL } from "@/lib/actions/fileupload";
 import { useState } from "react";
+import { CloudUpload } from "lucide-react";
 
 export default function FileUploader() {
   const [file, setFile] = useState<File | null>(null);
 
+  // this is a helper function to compute the SHA256 hash of a file
   const computeSHA256 = async (file: File) => {
     const buffer = await file.arrayBuffer();
     const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
@@ -28,6 +30,10 @@ export default function FileUploader() {
       throw new Error(signedURLResult.failure);
     }
     const { url, id: fileId } = signedURLResult.success;
+
+    console.log(file);
+    console.log(url);
+    console.log(file.type);
     await fetch(url, {
       method: "PUT",
       headers: {
@@ -61,7 +67,7 @@ export default function FileUploader() {
 
   return (
     <>
-      <div>
+      {/* <div>
         <form onSubmit={handleSubmit}>
           <input
             name="media"
@@ -71,14 +77,15 @@ export default function FileUploader() {
           />
           <Button type="submit">Upload</Button>
         </form>
-      </div>
-      {/* <Dropzone
+      </div> */}
+      <Dropzone
         multiple={false}
         onDrop={(acceptedFiles) => {
           if (acceptedFiles.length > 0) {
             setFile(acceptedFiles[0]);
           }
-          handleSubmit();
+          console.log(acceptedFiles[0]);
+          handleFileUpload(acceptedFiles[0]);
         }}
       >
         {({ getRootProps, getInputProps }) => (
@@ -104,7 +111,7 @@ export default function FileUploader() {
             </div>
           </div>
         )}
-      </Dropzone> */}
+      </Dropzone>
     </>
   );
 }

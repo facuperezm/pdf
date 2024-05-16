@@ -76,10 +76,13 @@ export const getSignedURL = async ({
     .values({
       id: fileName,
       type: fileType,
+      name: fileName,
       url: url.split("?")[0],
       userId: session.user.id,
     })
     .returning();
+
+  console.log(results);
 
   return { success: { url, id: 0 } };
 };
