@@ -31,9 +31,6 @@ export default function FileUploader() {
     }
     const { url, id: fileId } = signedURLResult.success;
 
-    console.log(file);
-    console.log(url);
-    console.log(file.type);
     await fetch(url, {
       method: "PUT",
       headers: {
@@ -58,8 +55,6 @@ export default function FileUploader() {
       if (file) {
         fileId = await handleFileUpload(file);
       }
-
-      // await uploadPdf({ fileId });
     } catch (error) {
       console.error(error);
     }

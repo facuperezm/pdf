@@ -5,7 +5,9 @@ import { db } from "@/server/db";
 import media from "@/server/db/schema/media";
 
 export default async function DashboardPage() {
-  const result = await db.select({ url: media.url }).from(media);
+  const result = await db
+    .select({ name: media.name, url: media.url, id: media.id })
+    .from(media);
 
   return (
     <main className="mx-auto max-w-7xl md:p-10">
@@ -14,18 +16,31 @@ export default async function DashboardPage() {
         <UploadButton />
       </div>
 
-      <ul className="mt-8 grid grid-cols-1 gap-6 divide-y divide-zinc-200 md:grid-cols-2 lg:grid-cols-3">
-        <li className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg">
-          <Link href={`/dashboard/1`} className="flex flex-col gap-2">
-            <div className="py-6 px-6 flex w-full items-center justify-between space-x-6">
-              <div className="flex-1 truncate">
-                <div className="flex items-center space-x-3"></div>
+      <ul className="mt-8 grid grid-cols-1 gap-6 divide-y md:grid-cols-2 lg:grid-cols-3">
+        {result.map((file) => (
+          <li
+            key={file.id}
+            className="rounded-lg bg-white shadow transition hover:shadow-lg"
+          >
+            <Link
+              href={`/dashboard/${file.id}`}
+              className="flex flex-col gap-2"
+            >
+              <div className="py-6 px-6 flex w-full items-center justify-between space-x-6">
+                <div className="flex flex-col text-left truncate">
+                  <span className="">{file.name}.pdf</span>
+                  <Link
+                    href={file.url}
+                    className="text-sm text-blue-500 truncate"
+                  >
+                    {file.url}
+                  </Link>
+                </div>
               </div>
-            </div>
-          </Link>
-        </li>
+            </Link>
+          </li>
+        ))}
       </ul>
-      <pre>{JSON.stringify(result, null, 2)}</pre>
     </main>
   );
 }

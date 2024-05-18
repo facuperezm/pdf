@@ -2,9 +2,11 @@
 
 import { auth } from "@/auth";
 import { db } from "@/server/db";
-import { media } from "@/server/db/schema/media";
+import media from "@/server/db/schema/media";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { generateRandomName } from "../random-name";
+import { revalidatePath } from "next/cache";
 
 const s3Client = new S3Client({
   region: process.env.AWS_BUCKET_REGION!,
@@ -71,19 +73,21 @@ export const getSignedURL = async ({
     { expiresIn: 60 } // 60 seconds
   );
 
+  const referenceName = await generateRandomName();
+
   const results = await db
     .insert(media)
     .values({
       id: fileName,
       type: fileType,
-      name: fileName,
+      name: referenceName,
       url: url.split("?")[0],
       userId: session.user.id,
     })
     .returning();
 
   console.log(results);
-
+  revalidatePath("/dashboard");
   return { success: { url, id: 0 } };
 };
 
