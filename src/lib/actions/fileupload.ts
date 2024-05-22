@@ -3,44 +3,37 @@
 import { auth } from "@/auth";
 import { db } from "@/server/db";
 import media from "@/server/db/schema/media";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { generateRandomName } from "../random-name";
 import { revalidatePath } from "next/cache";
-
-const s3Client = new S3Client({
-  region: process.env.AWS_BUCKET_REGION!,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-});
+import { generateFileName } from "../utils";
+import { s3Client } from "@/server/s3server";
+import { uploadPdfToPinecone } from "@/server/pinecone";
 
 type GetSignedURLParams = {
   fileSize: number;
   fileType: string;
+  filePath: string;
   checksum: string;
 };
 
-// only allow pdf files
-const allowedFileTypes = ["application/pdf"];
-
-const maxFileSize = 1048576 * 40; // 4MB
-
 type SignedURLResponse = Promise<
-  | { failure?: undefined; success: { url: string; id: number } }
+  | {
+      failure?: undefined;
+      success: { url: string; id: number; fileName: string };
+    }
   | { failure: string; success?: undefined }
 >;
 
-const generateFileName = (bytes = 32) => {
-  const array = new Uint8Array(bytes);
-  crypto.getRandomValues(array);
-  return [...array].map((b) => b.toString(16).padStart(2, "0")).join("");
-};
+// only allow pdf files
+const allowedFileTypes = ["application/pdf"];
+// 4MB max file size
+const maxFileSize = 1048576 * 40; // 4MB
 
 export const getSignedURL = async ({
   fileSize,
   fileType,
+  filePath,
   checksum,
 }: GetSignedURLParams): SignedURLResponse => {
   const session = await auth();
@@ -73,22 +66,22 @@ export const getSignedURL = async ({
     { expiresIn: 60 } // 60 seconds
   );
 
-  const referenceName = await generateRandomName();
+  // thought it would be cool to generate a random name for the file
+  // might implement this later
+  // const referenceName = await generateRandomName();
 
   const results = await db
     .insert(media)
     .values({
-      id: fileName,
-      type: fileType,
-      name: referenceName,
+      name: filePath,
+      fileKey: fileName,
       url: url.split("?")[0],
       userId: session.user.id,
     })
     .returning();
 
-  console.log(results);
   revalidatePath("/dashboard");
-  return { success: { url, id: 0 } };
+  return { success: { url, id: results[0].id, fileName } };
 };
 
 // export async function uploadPdf({ fileId }: { fileId?: number }) {

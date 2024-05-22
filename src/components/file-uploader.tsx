@@ -1,37 +1,32 @@
 "use client";
 
 import Dropzone from "react-dropzone";
-import { Button } from "./ui/button";
 import { getSignedURL } from "@/lib/actions/fileupload";
-import { useState } from "react";
 import { CloudUpload } from "lucide-react";
+import { toast } from "sonner";
+import { computeSHA256 } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { uploadPdfToPinecone } from "@/server/pinecone";
 
 export default function FileUploader() {
-  const [file, setFile] = useState<File | null>(null);
-
-  // this is a helper function to compute the SHA256 hash of a file
-  const computeSHA256 = async (file: File) => {
-    const buffer = await file.arrayBuffer();
-    const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-    return hashHex;
-  };
+  const router = useRouter();
+  const [file, setFile] = React.useState<number | null>();
 
   const handleFileUpload = async (file: File) => {
     const signedURLResult = await getSignedURL({
       fileSize: file.size,
       fileType: file.type,
+      filePath: file.name,
       checksum: await computeSHA256(file),
     });
     if (signedURLResult.failure !== undefined) {
+      toast.error(`${signedURLResult.failure}`);
       throw new Error(signedURLResult.failure);
     }
-    const { url, id: fileId } = signedURLResult.success;
+    const { url, id: fileId, fileName } = signedURLResult.success;
 
-    await fetch(url, {
+    const res = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": file.type,
@@ -39,26 +34,32 @@ export default function FileUploader() {
       body: file,
     });
 
-    const fileUrl = url.split("?")[0];
-    return fileId;
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    setFile(file);
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      let fileId: number | undefined = undefined;
-      if (file) {
-        fileId = await handleFileUpload(file);
-      }
-    } catch (error) {
-      console.error(error);
+    if (res.ok) {
+      toast.success(`File uploaded successfully`);
+      await uploadPdfToPinecone(fileName);
     }
+
+    setFile(fileId);
+    router.push(`/dashboard/${fileId}`);
+    return { fileId };
   };
+
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0] ?? null;
+  //   setFile(file);
+  // };
+
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   try {
+  //     let fileId: string | undefined = undefined;
+  //     if (file) {
+  //       fileId = await handleFileUpload(file);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <>
@@ -75,15 +76,19 @@ export default function FileUploader() {
       </div> */}
       <Dropzone
         multiple={false}
-        onDrop={(acceptedFiles) => {
+        onDrop={async (acceptedFiles) => {
           if (acceptedFiles.length > 0) {
-            setFile(acceptedFiles[0]);
+            try {
+              const res = await handleFileUpload(acceptedFiles[0]);
+            } catch (error) {
+              console.error(error);
+            } finally {
+              console.log("file upload was successful");
+            }
           }
-          console.log(acceptedFiles[0]);
-          handleFileUpload(acceptedFiles[0]);
         }}
       >
-        {({ getRootProps, getInputProps }) => (
+        {({ getRootProps, getInputProps, acceptedFiles }) => (
           <div
             {...getRootProps()}
             className="border h-64 m-4 border-dashed border-gray-300 rounded-lg"
@@ -100,6 +105,11 @@ export default function FileUploader() {
                     drag and drop
                   </p>
                   <p className="text-xs text-zinc-500">PDF (up to 4MB)</p>
+                  {acceptedFiles.length > 0 && (
+                    <p className="text-xs text-zinc-500">
+                      {acceptedFiles[0].name}
+                    </p>
+                  )}
                 </div>
                 <input {...getInputProps()} type="file" id="dropzone-file" />
               </label>

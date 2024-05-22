@@ -28,7 +28,7 @@ export default async function DashboardPage() {
             >
               <div className="py-6 px-6 flex w-full items-center justify-between space-x-6">
                 <div className="flex flex-col text-left truncate">
-                  <span className="">{file.name}.pdf</span>
+                  <span className="">{file.name}</span>
                   <Link
                     href={file.url}
                     className="text-sm text-blue-500 truncate"
