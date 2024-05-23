@@ -1,3 +1,3 @@
 export default function PricingPage() {
-  return <div className="text-black">PRECIOS LOCOS</div>;
+  return <div className="text-black">Pricing</div>;
 }

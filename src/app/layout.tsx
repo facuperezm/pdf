@@ -19,7 +19,6 @@ export default function RootLayout({
     <Providers>
       <html lang="en">
         <Toaster />
-
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-lime-50 to-lime-100",

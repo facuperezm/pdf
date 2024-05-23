@@ -1,7 +1,6 @@
 import { generateFileName } from "@/lib/utils";
 import { S3Client, S3 } from "@aws-sdk/client-s3";
 import fs from "fs";
-import axios from "axios";
 
 export const s3Client = new S3Client({
   region: process.env.AWS_BUCKET_REGION!,

@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import FileUploader from "@/components/file-uploader";
+import FileUploader from "@/app/(dashboard)/dashboard/_components/file-uploader";
 import { Button } from "@/components/ui/button";
 import React from "react";
 
